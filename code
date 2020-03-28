@@ -1,0 +1,236 @@
+#include<stdio.h>
+#include<conio.h>>
+int prt2[20],proc2[20];
+int avt1[20],avt2[20],avt3[20];
+int bt1[20],bt2[20],bt3[20];
+
+int Tot=0,T1=0,T2=0,T3=0;
+
+int n,i,avt[20],bt[20],prio[20];
+int j,k,l;
+j=0;
+k=0;
+l=0;
+
+int tot,x,temp[20],flag=0;
+int position,q,temp1,sum=0;
+
+
+void r_r()
+{
+	printf("Time Quantum for Queue1 is 4\n");
+	for(i=0;i<j;i++)
+	{
+		temp[i]=bt1[i];
+	} 
+	printf("\nProcess ID\tBurst Time \n");
+	x=j;
+    for(i=0,tot=0;x!=0;) 
+    { 
+    	if(temp[i]<=4&&temp[i]>0) 
+        {
+			printf("\nProcess[%d] of Queue1 is running for %d units",i+1,temp[i]); 
+            tot=tot+temp[i]; 
+            temp[i]=0; 
+            flag=1; 
+        } 
+        else if(temp[i]>0) 
+        {
+			printf("\nProcess[%d] of Queue1 is running for 4 units",i+1); 
+            temp[i]=temp[i]-4; 
+            tot=tot+4; 
+        } 
+        if(temp[i]==0&&flag==1) 
+        { 
+            x--; 
+            printf("\nProcess[%d]\t%d",i+1,bt1[i]);
+            
+            flag = 0; 
+        } 
+        if(i==j-1) 
+        {
+            i=0; 
+        }
+        else if(avt1[i+1]<=tot) 
+        {
+            i++;
+        }
+        else 
+        {
+            i=0;
+        }
+    } 
+    
+}
+
+void priority()
+{
+	for(i=0;i<k;i++)
+    {
+        position=i;
+        for(q=i+1;q<k;q++)
+        {
+            if(prt2[q]<prt2[position])
+            {
+                position=q;
+            }
+        }
+        temp1=prt2[i];
+        prt2[i]=prt2[position];
+        prt2[position]=temp1; 
+        
+        temp1=bt2[i];
+        bt2[i]=bt2[position];
+        bt2[position]=temp1;
+        
+        temp1=proc2[i];
+        proc2[i]=proc2[position];
+        proc2[position]=temp1;
+    }
+    
+    printf("\nProcess ID\t\tBurst Time\n");
+    for(i=0;i<k;i++)
+    {
+    	
+        printf("\nProcess[%d]\t\t%d \n",proc2[i],bt2[i]);
+    }
+   
+    for(i=0;i<k;i++)
+    {
+    	while(bt2[i]!=0)
+    	{
+    		if(bt2[i]>10)
+    		{
+				printf("\nProcess[%d] of Queue2 is running for 10 units",i+1);
+				bt2[i]=bt2[i]-10;
+			}
+			else if(bt2[i]<=10)
+			{
+				printf("\nProcess[%d] of Queue2 is running for %d units",i+1,bt2[i]);
+				bt2[i]=0;
+			}
+		}
+	}
+
+}
+
+void FCFS()
+{
+
+    printf("\nProcess\t\tBurst Time \n");
+    for(i=0;i<l;i++)
+    {
+       
+        printf("\nProcess[%d]\t\t%d \n",i+1,bt3[i]);
+    }
+    
+    for(i=0;i<l;i++)
+    {
+    	while(bt3[i]!=0)
+    	{
+    		if(bt3[i]>10)
+    		{
+				printf("\nProcess[%d] of Queue3 is running for 10 units",i+1);
+				bt3[i]=bt3[i]-10;
+			}
+			else if(bt3[i]<=10)
+			{
+				printf("\nProcess[%d] of Queue2 is running for %d units",i+1,bt3[i]);
+				bt3[i]=0;
+			}
+		}
+	}
+}
+
+void r_r1()
+{
+	printf("Timequantum between 3 queues is 10\n");
+	for(i=1;i<Tot;i=i+10)
+	{
+		if(T1>10)
+		{
+			printf("Queue1 is running for 10 units\n");
+			T1=T1-10;
+		}
+		else if(T1<=10&&T1!=0)
+		{
+			printf("Queue1 is running for %d units\n",T1);
+			T1=0;
+		}
+		if(T2>10)
+		{
+			printf("Queue2 is running for 10 units\n");
+			T2=T2-10;
+		}
+		else if(T2<=10&&T2!=0)
+		{
+			printf("Queue2 is running for %d units\n",T2);
+			T2=0;
+		}
+		if(T3>10)
+		{
+			printf("Queue3 is running for 10 units\n");
+			T3=T3-10;
+		}
+		else if(T3<=10&&T3!=0)
+		{
+			printf("Queue3 is running for %d units\n",T3);
+			T3=0;
+		}
+	}
+}
+
+int main()
+{
+	printf("Enter the no. of process you want to enter\n");
+	scanf("%d",&n);
+	for(i=0;i<n;i++)
+	{
+		printf("Enter details of process[%d]\n",i+1);
+		printf("Arrival Time:");
+		scanf("%d",&avt[i]);
+		printf("Burst Time:");
+		scanf("%d",&bt[i]);
+		printf("Priority(1 to 15):");
+		scanf("%d",&prio[i]);
+		Tot=Tot+bt[i];
+	}
+	for(i=0;i<n;i++)
+	{
+		if(prio[i]>=1&&prio[i]<=5)
+		{
+			printf("\n\nProcess[%d] belongs to Queue 1\n",i+1);
+			avt1[j]=avt[i];
+			bt1[j]=bt[i];
+			j++;
+			T1=T1+bt[i];
+		}
+		
+		else if(prio[i]>=6&&prio[i]<=10)
+		{
+			printf("Process[%d] belongs to Queue 2\n",i+1);
+			avt2[k]=avt[i];
+			bt2[k]=bt[i];
+			prt2[k]=prio[i];
+			proc2[k]=k+1;
+			k++;
+			T2=T2+bt[i];
+		}
+		
+		else if(prio[i]>=11&&prio[i]<=15)
+		{
+			printf("Process[%d] belongs to Queue 3\n\n\n\n",i+1);
+			avt3[l]=avt[i];
+			bt3[l]=bt[i];
+			l++;
+			T3=T3+bt[i];
+		}
+	}
+	
+	r_r1();
+	r_r();
+	FCFS();
+	priority();
+	
+	return 0;
+}
